@@ -1,11 +1,9 @@
 package org.reactiveStreams.example;
 
-import org.reactiveStreams.example.Impl.publishers.ErrorPublisher;
 import org.reactiveStreams.example.Impl.publishers.StringsPublisher;
 import org.reactiveStreams.example.Impl.StringsSubscriber;
 
 import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class Main {
@@ -15,7 +13,7 @@ public class Main {
 
         System.out.println("should publish the strings to the specified executor");
         publisher
-                .publishOn(Executors.newCachedThreadPool())
+                .publishOn(Executors.newSingleThreadExecutor())
                 .subscribe(subscriber);
     }
 }
