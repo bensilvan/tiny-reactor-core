@@ -10,7 +10,6 @@ public class StringsSubscriber implements Subscriber<String> {
         System.out.println("got: " + item + " On thread: "+ Thread.currentThread());
         this.subscription.request(1);
     }
-
     @Override
     public void onComplete() {
         System.out.println("got complete on " + Thread.currentThread());
@@ -23,6 +22,7 @@ public class StringsSubscriber implements Subscriber<String> {
     }
     @Override
     public void onSubscribe(Subscription subscription) {
+        System.out.println("got onSubscribe on thread: " + Thread.currentThread());
         this.subscription = subscription;
         this.subscription.request(1);
     }

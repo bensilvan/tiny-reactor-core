@@ -26,16 +26,18 @@ public class ErrorPublisher implements Publisher<String> {
         subscriber.onSubscribe(subscription);
     }
 
-    public void produceStrings() {
-        if (!this.isSubsciptionTerminated) {
-            if (index == this.strings.size()) {
-                this.subscriber.onComplete();
-                this.isSubsciptionTerminated = true;
-            } else if (index == 2) {
-                this.subscriber.onError(new Exception("Some error producing the value"));
-                this.isSubsciptionTerminated = true;
-            } else {
-                this.subscriber.onNext(this.strings.get(index++));
+    public void produceStrings(Integer count) {
+        for (var i = 0; i < count; i++){
+            if (!this.isSubsciptionTerminated) {
+                if (index == this.strings.size()) {
+                    this.subscriber.onComplete();
+                    this.isSubsciptionTerminated = true;
+                } else if (index == 2) {
+                    this.subscriber.onError(new Exception("Some error producing the value"));
+                    this.isSubsciptionTerminated = true;
+                } else {
+                    this.subscriber.onNext(this.strings.get(index++));
+                }
             }
         }
     }
