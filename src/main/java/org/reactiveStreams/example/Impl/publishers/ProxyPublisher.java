@@ -9,12 +9,10 @@ import java.util.concurrent.ExecutorService;
 
 public class ProxyPublisher<T> implements Publisher<T>,Subscriber<T> {
 
-    private Publisher<T> parent;
+    private final Publisher<T> parent;
+    private final ExecutorService executor;
     private Subscriber<T> subscriber;
-
     private Subscription parentSubscription;
-
-    private ExecutorService executor;
 
     public ProxyPublisher(Publisher<T> parent, ExecutorService executor){
         this.parent = parent;
