@@ -12,6 +12,8 @@ public class Main {
         var subscriber = new StringsSubscriber();
         var publisher = MyFlux.create(List.of("1","2","3"));
 
-        publisher.subscribe(subscriber);
+        publisher
+                .publishOn(Executors.newSingleThreadExecutor())
+                .subscribe(subscriber);
     }
 }

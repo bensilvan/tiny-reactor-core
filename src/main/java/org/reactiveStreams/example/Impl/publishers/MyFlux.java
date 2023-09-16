@@ -6,12 +6,11 @@ import org.reactiveStreams.example.specification.Subscriber;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 
 public class MyFlux<T> implements Publisher<T> {
     private Subscriber<T> subscriber;
-
-    private List<T> items;
-
+    private final List<T> items;
     private Integer index;
 
     private MyFlux (List<T> items) {
@@ -36,5 +35,9 @@ public class MyFlux<T> implements Publisher<T> {
                 this.subscriber.onComplete();
             }
         }
+    }
+
+    public MyFluxPublishOnProxy<T> publishOn(ExecutorService executor){
+        return new MyFluxPublishOnProxy<>(this.subscriber, this, executor);
     }
 }
