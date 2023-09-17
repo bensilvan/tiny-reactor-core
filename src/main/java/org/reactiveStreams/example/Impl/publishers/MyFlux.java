@@ -5,13 +5,13 @@ import org.reactiveStreams.example.specification.Publisher;
 import org.reactiveStreams.example.specification.Subscriber;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
 public class MyFlux<T> implements Publisher<T> {
     private Subscriber<T> subscriber;
     private final List<T> items;
     private Integer index;
+    private ExecutorService subscribeExecution;
 
     private MyFlux (List<T> items) {
         this.items = items;
@@ -25,7 +25,13 @@ public class MyFlux<T> implements Publisher<T> {
     @Override
     public void subscribe(Subscriber<T> subscriber) {
         this.subscriber = subscriber;
-        this.subscriber.onSubscribe(new SimpleSubsciption(this::OnRequest));
+        if (this.subscribeExecution == null) {
+            this.subscriber.onSubscribe(new SimpleSubsciption(this::OnRequest));
+        } else {
+            this.subscribeExecution.execute(() -> {
+                this.subscriber.onSubscribe(new SimpleSubsciption(this::OnRequest));
+            });
+        }
     }
     public void OnRequest(Integer count) {
         for (var i = 0; i < count ; i++) {
@@ -35,6 +41,11 @@ public class MyFlux<T> implements Publisher<T> {
                 this.subscriber.onComplete();
             }
         }
+    }
+
+    public MyFlux<T> subscribeOn(ExecutorService executer) {
+        this.subscribeExecution = executer;
+        return this;
     }
 
     public MyFluxPublishOnProxy<T> publishOn(ExecutorService executor){

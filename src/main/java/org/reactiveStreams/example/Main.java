@@ -1,7 +1,6 @@
 package org.reactiveStreams.example;
 
 import org.reactiveStreams.example.Impl.publishers.MyFlux;
-import org.reactiveStreams.example.Impl.publishers.StringsPublisher;
 import org.reactiveStreams.example.Impl.StringsSubscriber;
 
 import java.util.List;
@@ -14,6 +13,7 @@ public class Main {
 
         publisher
                 .publishOn(Executors.newSingleThreadExecutor())
+                .subscribeOn(Executors.newFixedThreadPool(3))
                 .subscribe(subscriber);
     }
 }

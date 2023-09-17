@@ -8,12 +8,13 @@ import org.reactiveStreams.example.specification.Subscription;
 import java.util.concurrent.ExecutorService;
 
 public class MyFluxPublishOnProxy<T> implements Publisher<T>, Subscriber<T> {
+    private final MyFlux<T> actualPublisher;
+    private final ExecutorService publishExecutor;
     private Subscriber<T> subscriber;
-    private Publisher<T> actualPublisher;
-    private ExecutorService publishExecutor;
     private Subscription parentSubscription;
+    private ExecutorService subscribeExecutor;
 
-    public MyFluxPublishOnProxy(Subscriber<T> subscriber, Publisher<T> actualPublisher, ExecutorService publishExecutor){
+    public MyFluxPublishOnProxy(Subscriber<T> subscriber, MyFlux<T> actualPublisher, ExecutorService publishExecutor){
         this.subscriber = subscriber;
         this.actualPublisher = actualPublisher;
         this.publishExecutor = publishExecutor;
@@ -30,7 +31,11 @@ public class MyFluxPublishOnProxy<T> implements Publisher<T>, Subscriber<T> {
     @Override
     public void subscribe(Subscriber<T> subscriber) {
         this.subscriber = subscriber;
-        this.actualPublisher.subscribe(this);
+        if (this.subscribeExecutor == null) {
+            this.actualPublisher.subscribe(this);
+        } else {
+            this.actualPublisher.subscribeOn(this.subscribeExecutor).subscribe(this);
+        }
     }
 
     @Override
@@ -58,5 +63,10 @@ public class MyFluxPublishOnProxy<T> implements Publisher<T>, Subscriber<T> {
     public void onSubscribe(Subscription subscription) {
         this.parentSubscription = subscription;
         this.subscriber.onSubscribe(new SimpleSubsciption(this::ProxyToParent));
+    }
+
+    public MyFluxPublishOnProxy<T> subscribeOn(ExecutorService executor) {
+        this.subscribeExecutor = executor;
+        return this;
     }
 }
