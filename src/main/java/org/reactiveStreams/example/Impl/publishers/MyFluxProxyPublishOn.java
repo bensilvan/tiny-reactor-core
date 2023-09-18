@@ -13,13 +13,6 @@ public class MyFluxProxyPublishOn<T> extends MyFluxProxy<T,T> implements Subscri
         super(actualPublisher);
         this.executor = executor;
     }
-
-    // TODO: consider to refactor the proxy because that function is specific to map, it make sense the proxy will implement the onNext etc..
-    @Override
-    public T operate(T t) {
-        return t;
-    }
-
     @Override
     public void onNext(T item) {
         this.executor.execute(() -> {

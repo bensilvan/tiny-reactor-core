@@ -9,8 +9,19 @@ public class MyFluxProxyMap<Treturn, Tparam> extends MyFluxProxy<Treturn,Tparam>
         super(publisher);
         this.mapper = mapper;
     }
+
     @Override
-    public Treturn operate(Tparam tparam) {
-        return mapper.apply(tparam);
+    public void onNext(Tparam item) {
+        this.subscriber.onNext(this.mapper.apply(item));
+    }
+
+    @Override
+    public void onComplete() {
+        this.subscriber.onComplete();
+    }
+
+    @Override
+    public void onError(Exception e) {
+        this.subscriber.onError(e);
     }
 }

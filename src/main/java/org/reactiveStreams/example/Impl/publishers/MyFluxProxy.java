@@ -25,23 +25,6 @@ public abstract class MyFluxProxy<Treturn,Tparam> extends MyFlux<Treturn> implem
     public void OnRequest(Integer count) {
         this.upperSubscription.request(count);
     }
-    public abstract Treturn operate(Tparam tparam);
-
-    @Override
-    public void onNext(Tparam item) {
-        this.subscriber.onNext(this.operate(item));
-    }
-
-    @Override
-    public void onComplete() {
-        this.subscriber.onComplete();
-    }
-
-    @Override
-    public void onError(Exception e) {
-        this.subscriber.onError(e);
-    }
-
     @Override
     public void onSubscribe(Subscription subscription) {
         this.upperSubscription = subscription;
