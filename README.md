@@ -48,14 +48,15 @@ git clone https://github.com/bensilvan/reactive-streams-example.git
 Here's a basic example to get you started:
 
 ```java
-import org.reactiveStreams.example.Impl.publishers.MyFlux;
-import org.reactiveStreams.example.Impl.StringsSubscriber;
+import org.tinyReactorCore.example.Impl.publishers.MyFlux;
+import org.tinyReactorCore.example.Impl.StringsSubscriber;
 
 import java.util.List;
 import java.util.concurrent.Executors;
 
 public class Main {
     public static void main(String[] args) {
+
         var subscriber = new StringsSubscriber();
 
         MyFlux.just(List.of(1,2,3))
