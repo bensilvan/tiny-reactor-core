@@ -6,6 +6,7 @@ import org.reactiveStreams.example.specification.Subscriber;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.function.Function;
 
 public class MyFlux<T> implements Publisher<T> {
     private Subscriber<T> subscriber;
@@ -49,6 +50,10 @@ public class MyFlux<T> implements Publisher<T> {
     }
 
     public MyFluxPublishOnProxy<T> publishOn(ExecutorService executor){
-        return new MyFluxPublishOnProxy<>(this.subscriber, this, executor);
+        return new MyFluxPublishOnProxy<>(this, executor);
+    }
+
+    public <V> MapOperator<V,T> map(Function<T,V> mapper) {
+        return new MapOperator<>(this, mapper);
     }
 }

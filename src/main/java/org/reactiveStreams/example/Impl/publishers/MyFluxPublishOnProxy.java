@@ -14,8 +14,7 @@ public class MyFluxPublishOnProxy<T> implements Publisher<T>, Subscriber<T> {
     private Subscription parentSubscription;
     private ExecutorService subscribeExecutor;
 
-    public MyFluxPublishOnProxy(Subscriber<T> subscriber, MyFlux<T> actualPublisher, ExecutorService publishExecutor){
-        this.subscriber = subscriber;
+    public MyFluxPublishOnProxy(MyFlux<T> actualPublisher, ExecutorService publishExecutor){
         this.actualPublisher = actualPublisher;
         this.publishExecutor = publishExecutor;
     }
