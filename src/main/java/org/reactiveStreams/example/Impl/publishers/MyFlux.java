@@ -38,4 +38,8 @@ public abstract class MyFlux<T> implements Publisher<T> {
     public <Treturn> MyFluxProxy<Treturn,T> map (Function<T,Treturn> mapper) {
         return new MyFluxProxyMap<>(this, mapper);
     }
+
+    public MyFluxProxyPublishOn<T> publishOn(ExecutorService executor) {
+        return new MyFluxProxyPublishOn<>(this, executor);
+    }
 }
