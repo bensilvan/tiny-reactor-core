@@ -1,7 +1,7 @@
-package org.reactiveStreams.example.Impl;
+package org.tinyReactorCore.example.Impl;
 
-import org.reactiveStreams.example.specification.Subscriber;
-import org.reactiveStreams.example.specification.Subscription;
+import org.tinyReactorCore.example.specification.Subscriber;
+import org.tinyReactorCore.example.specification.Subscription;
 
 public class StringsSubscriber implements Subscriber<String> {
     private Subscription subscription;

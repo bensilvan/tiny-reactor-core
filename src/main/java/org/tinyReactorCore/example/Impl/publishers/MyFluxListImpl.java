@@ -1,9 +1,6 @@
-package org.reactiveStreams.example.Impl.publishers;
-
-import org.reactiveStreams.example.specification.Subscriber;
+package org.tinyReactorCore.example.Impl.publishers;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 public class MyFluxListImpl<T> extends MyFlux<T>{
 

@@ -1,4 +1,4 @@
-package org.reactiveStreams.example.Impl.publishers;
+package org.tinyReactorCore.example.Impl.publishers;
 
 import java.util.function.Function;
 

@@ -1,4 +1,4 @@
-package org.reactiveStreams.example.specification;
+package org.tinyReactorCore.example.specification;
 
 public interface Subscription {
     void request(Integer count);

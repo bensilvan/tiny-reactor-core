@@ -1,7 +1,6 @@
-package org.reactiveStreams.example.Impl.publishers;
+package org.tinyReactorCore.example.Impl.publishers;
 
-import org.reactiveStreams.example.specification.Subscriber;
-import org.reactiveStreams.example.specification.Subscription;
+import org.tinyReactorCore.example.specification.Subscriber;
 
 import java.util.concurrent.ExecutorService;
 

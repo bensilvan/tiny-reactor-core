@@ -1,8 +1,8 @@
-package org.reactiveStreams.example.Impl.publishers;
+package org.tinyReactorCore.example.Impl.publishers;
 
-import org.reactiveStreams.example.Impl.SimpleSubsciption;
-import org.reactiveStreams.example.specification.Subscriber;
-import org.reactiveStreams.example.specification.Subscription;
+import org.tinyReactorCore.example.Impl.SimpleSubsciption;
+import org.tinyReactorCore.example.specification.Subscriber;
+import org.tinyReactorCore.example.specification.Subscription;
 
 public abstract class MyFluxProxy<Treturn,Tparam> extends MyFlux<Treturn> implements Subscriber<Tparam> {
     private final MyFlux<Tparam> upperPublisher;

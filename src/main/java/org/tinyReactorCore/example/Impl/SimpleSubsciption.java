@@ -1,6 +1,6 @@
-package org.reactiveStreams.example.Impl;
+package org.tinyReactorCore.example.Impl;
 
-import org.reactiveStreams.example.specification.Subscription;
+import org.tinyReactorCore.example.specification.Subscription;
 
 import java.util.function.Consumer;
 

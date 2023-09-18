@@ -1,7 +1,7 @@
-package org.reactiveStreams.example;
+package org.tinyReactorCore.example;
 
-import org.reactiveStreams.example.Impl.publishers.MyFlux;
-import org.reactiveStreams.example.Impl.StringsSubscriber;
+import org.tinyReactorCore.example.Impl.publishers.MyFlux;
+import org.tinyReactorCore.example.Impl.StringsSubscriber;
 
 import java.util.List;
 import java.util.concurrent.Executors;
