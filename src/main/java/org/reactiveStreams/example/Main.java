@@ -8,11 +8,13 @@ import java.util.concurrent.Executors;
 
 public class Main {
     public static void main(String[] args) {
-        var subscriber = new StringsSubscriber();
-        var publisher = MyFlux.create(List.of(1,2,3));
 
-        publisher
+        var subscriber = new StringsSubscriber();
+
+        MyFlux.just(List.of(1,2,3))
                 .map(Object::toString)
+                .subscribeOn(Executors.newSingleThreadExecutor())
                 .subscribe(subscriber);
+
     }
 }

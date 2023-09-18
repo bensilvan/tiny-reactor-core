@@ -3,57 +3,39 @@ package org.reactiveStreams.example.Impl.publishers;
 import org.reactiveStreams.example.Impl.SimpleSubsciption;
 import org.reactiveStreams.example.specification.Publisher;
 import org.reactiveStreams.example.specification.Subscriber;
+import org.reactiveStreams.example.specification.Subscription;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Function;
 
-public class MyFlux<T> implements Publisher<T> {
-    private Subscriber<T> subscriber;
-    private final List<T> items;
-    private Integer index;
-    private ExecutorService subscribeExecution;
-
-    private MyFlux (List<T> items) {
-        this.items = items;
-        this.index = 0;
-    }
-
-    public static <T> MyFlux<T> create(List<T> items) {
-        return new MyFlux<>(items);
-    }
+// this abstraction will contain all the common function of the publisher and processor like .map .publishOn etc...
+public abstract class MyFlux<T> implements Publisher<T> {
+    protected Subscriber<T> subscriber;
+    protected ExecutorService subscribeExecutor;
 
     @Override
     public void subscribe(Subscriber<T> subscriber) {
         this.subscriber = subscriber;
-        if (this.subscribeExecution == null) {
+        if (this.subscribeExecutor == null) {
             this.subscriber.onSubscribe(new SimpleSubsciption(this::OnRequest));
         } else {
-            this.subscribeExecution.execute(() -> {
+            this.subscribeExecutor.execute(() -> {
                 this.subscriber.onSubscribe(new SimpleSubsciption(this::OnRequest));
             });
         }
     }
-    public void OnRequest(Integer count) {
-        for (var i = 0; i < count ; i++) {
-            if(this.index < this.items.size()) {
-                this.subscriber.onNext(this.items.get(this.index++));
-            } else {
-                this.subscriber.onComplete();
-            }
-        }
-    }
+    public abstract void OnRequest(Integer count);
 
-    public MyFlux<T> subscribeOn(ExecutorService executer) {
-        this.subscribeExecution = executer;
+    public MyFlux<T> subscribeOn(ExecutorService executorService) {
+        this.subscribeExecutor = executorService;
         return this;
     }
-
-    public MyFluxPublishOnProxy<T> publishOn(ExecutorService executor){
-        return new MyFluxPublishOnProxy<>(this, executor);
+    public static <T> MyFluxListImpl<T> just(List<T> list) {
+        return new MyFluxListImpl<>(list);
     }
 
-    public <V> MapOperator<V,T> map(Function<T,V> mapper) {
-        return new MapOperator<>(this, mapper);
+    public <Treturn> MyFluxProxy<Treturn,T> map (Function<T,Treturn> mapper) {
+        return new MyFluxProxyMap<>(this, mapper);
     }
 }
