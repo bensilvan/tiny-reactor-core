@@ -2,21 +2,25 @@ package org.tinyReactorCore.example.Impl.publishers;
 
 import org.tinyReactorCore.example.specification.Subscriber;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
 public class MyFluxProxyPublishOn<T> extends MyFluxProxy<T,T> implements Subscriber<T> {
-
     private final ExecutorService executor;
+    private CompletableFuture<Void> currentTask;
 
     public MyFluxProxyPublishOn(MyFlux<T> actualPublisher, ExecutorService executor) {
         super(actualPublisher);
         this.executor = executor;
+        currentTask = null;
     }
     @Override
     public void onNext(T item) {
-        this.executor.execute(() -> {
-            this.subscriber.onNext(item);
-        });
+        if (this.currentTask == null) {
+            this.currentTask =  CompletableFuture.runAsync(() -> this.subscriber.onNext(item), this.executor);
+        } else {
+            this.currentTask = this.currentTask.thenRun(() -> this.subscriber.onNext(item));
+        }
     }
 
     @Override

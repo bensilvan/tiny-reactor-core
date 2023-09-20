@@ -22,12 +22,12 @@ public abstract class MyFluxProxy<Treturn,Tparam> extends MyFlux<Treturn> implem
     }
 
     @Override
-    public void OnRequest(Integer count) {
+    public void onRequest(Integer count) {
         this.upperSubscription.request(count);
     }
     @Override
     public void onSubscribe(Subscription subscription) {
         this.upperSubscription = subscription;
-        this.subscriber.onSubscribe(new SimpleSubsciption(this::OnRequest));
+        this.subscriber.onSubscribe(new SimpleSubsciption(this::onRequest));
     }
 }

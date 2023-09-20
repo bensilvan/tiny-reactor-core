@@ -12,13 +12,13 @@ public class MyFluxListImpl<T> extends MyFlux<T>{
         this.index = 0;
     }
     @Override
-    public void OnRequest(Integer count) {
+    public void onRequest(Integer count) {
         for (var i = 0; i < count; i++) {
             if (index < this.list.size()) {
                 super.subscriber.onNext(this.list.get(this.index++));
             } else {
                 super.subscriber.onComplete();
-                this.index = 0;
+                return;
             }
         }
     }

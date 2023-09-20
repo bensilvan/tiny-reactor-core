@@ -65,7 +65,7 @@ public class Main {
                     System.out.println("inside map: running on : " + Thread.currentThread());
                     return x.toString();
                 })
-                .subscribe(subscriber);
+                .subscribe();
     }
 }
 ```

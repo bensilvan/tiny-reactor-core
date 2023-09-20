@@ -1,5 +1,6 @@
 package org.tinyReactorCore.example.Impl.publishers;
 
+import org.tinyReactorCore.example.Impl.DefaultSubscriber;
 import org.tinyReactorCore.example.Impl.SimpleSubsciption;
 import org.tinyReactorCore.example.specification.Publisher;
 import org.tinyReactorCore.example.specification.Subscriber;
@@ -8,7 +9,6 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Function;
 
-// this abstraction will contain all the common function of the publisher and processor like .map .publishOn etc...
 public abstract class MyFlux<T> implements Publisher<T> {
     protected Subscriber<T> subscriber;
     protected ExecutorService subscribeExecutor;
@@ -17,14 +17,14 @@ public abstract class MyFlux<T> implements Publisher<T> {
     public void subscribe(Subscriber<T> subscriber) {
         this.subscriber = subscriber;
         if (this.subscribeExecutor == null) {
-            this.subscriber.onSubscribe(new SimpleSubsciption(this::OnRequest));
+            this.subscriber.onSubscribe(new SimpleSubsciption(this::onRequest));
         } else {
             this.subscribeExecutor.execute(() -> {
-                this.subscriber.onSubscribe(new SimpleSubsciption(this::OnRequest));
+                this.subscriber.onSubscribe(new SimpleSubsciption(this::onRequest));
             });
         }
     }
-    public abstract void OnRequest(Integer count);
+    public abstract void onRequest(Integer count);
 
     public MyFlux<T> subscribeOn(ExecutorService executorService) {
         this.subscribeExecutor = executorService;
@@ -40,5 +40,9 @@ public abstract class MyFlux<T> implements Publisher<T> {
 
     public MyFluxProxyPublishOn<T> publishOn(ExecutorService executor) {
         return new MyFluxProxyPublishOn<>(this, executor);
+    }
+
+    public void subscribe(){
+        this.subscribe(new DefaultSubscriber<>());
     }
 }
