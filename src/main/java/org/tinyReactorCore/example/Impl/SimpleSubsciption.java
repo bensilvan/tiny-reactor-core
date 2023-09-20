@@ -12,6 +12,5 @@ public class SimpleSubsciption implements Subscription {
     @Override
     public void request(Integer count) {
         produce.accept(count);
-
     }
 }

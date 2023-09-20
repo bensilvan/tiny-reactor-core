@@ -1,6 +1,7 @@
 package org.tinyReactorCore.example;
 
 import org.tinyReactorCore.example.Impl.publishers.MyFlux;
+import org.tinyReactorCore.example.Impl.publishers.MyMono;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -14,7 +15,7 @@ public class Main {
                 .map(x -> {
                     System.out.println("starting map for: " + x + " on " + Thread.currentThread());
                     try {
-                        Thread.sleep(10000);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
