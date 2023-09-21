@@ -34,8 +34,12 @@ public abstract class MyFlux<T> implements Publisher<T> {
         return new MyFluxListImpl<>(list);
     }
 
-    public <Treturn> MyFluxProxy<Treturn,T> map (Function<T,Treturn> mapper) {
+    public <Treturn> MyFluxProxyMap<Treturn,T> map (Function<T,Treturn> mapper) {
         return new MyFluxProxyMap<>(this, mapper);
+    }
+
+    public <Treturn> MyFluxProxyFlatMap<Treturn,T> flatMap(Function<T,MyMono<Treturn>> publisherProducer, Integer concurrecny, Integer prefetch) {
+        return new MyFluxProxyFlatMap<>(this, publisherProducer, concurrecny, prefetch);
     }
 
     public MyFluxProxyPublishOn<T> publishOn(ExecutorService executor) {

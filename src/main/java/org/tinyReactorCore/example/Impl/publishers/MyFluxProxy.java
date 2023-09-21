@@ -6,7 +6,7 @@ import org.tinyReactorCore.example.specification.Subscription;
 
 public abstract class MyFluxProxy<Treturn,Tparam> extends MyFlux<Treturn> implements Subscriber<Tparam> {
     private final MyFlux<Tparam> upperPublisher;
-    private Subscription upperSubscription;
+    protected Subscription upperSubscription;
     public MyFluxProxy(MyFlux<Tparam> actualPublisher) {
         this.upperPublisher = actualPublisher;
     }
