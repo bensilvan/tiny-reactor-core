@@ -7,6 +7,7 @@ import org.tinyReactorCore.example.specification.Subscriber;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public abstract class MyFlux<T> implements Publisher<T> {
@@ -48,5 +49,9 @@ public abstract class MyFlux<T> implements Publisher<T> {
 
     public void subscribe(){
         this.subscribe(new DefaultSubscriber<>());
+    }
+
+    public void subscribe(Consumer<T> callback) {
+        this.subscribe(new DefaultSubscriber<>(callback));
     }
 }
