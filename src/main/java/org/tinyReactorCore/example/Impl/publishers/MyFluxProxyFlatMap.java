@@ -2,55 +2,38 @@ package org.tinyReactorCore.example.Impl.publishers;
 
 import org.tinyReactorCore.example.Impl.InnerMonoSubscriber;
 
-import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
-// TODO: support all kinds of publishers
-// TODO: check when publisher is actually async and do the thread sync using locks/atomics
 public class MyFluxProxyFlatMap<Treturn,Tparam> extends MyFluxProxy<Treturn,Tparam>{
     private final Function<Tparam,MyMono<Treturn>> publisherProducer;
     private final Integer concurrency;
+    private final AtomicInteger currentlyRunning;
+    private final AtomicInteger downstreamRequested;
 
-    private  Integer currentlyRunning;
-    private final Integer prefetch;
-    private final Queue<Tparam> prefetchedQueue;
-    private Integer downstreamRequested;
-
-    public MyFluxProxyFlatMap(MyFlux<Tparam> actualPublisher, Function<Tparam, MyMono<Treturn>> producer, Integer concurrency, Integer prefetch) {
+    public MyFluxProxyFlatMap(MyFlux<Tparam> actualPublisher, Function<Tparam, MyMono<Treturn>> producer, Integer concurrency) {
         super(actualPublisher);
         this.publisherProducer = producer;
         this.concurrency = concurrency;
-        this.prefetch = prefetch;
-        this.downstreamRequested = 0;
-        this.currentlyRunning = 0;
-        this.prefetchedQueue = new ArrayBlockingQueue<Tparam>(prefetch);
-    }
-
-    public MyFluxProxyFlatMap(MyFlux<Tparam> actualPublisher, Function<Tparam, MyMono<Treturn>> producer, Integer concurrency) {
-        this(actualPublisher, producer, concurrency, 10);
+        this.downstreamRequested = new AtomicInteger(0);
+        this.currentlyRunning = new AtomicInteger(0);
     }
 
     public MyFluxProxyFlatMap(MyFlux<Tparam> actualPublisher, Function<Tparam, MyMono<Treturn>> producer) {
-        this(actualPublisher, producer, 10, 10);
+        this(actualPublisher, producer, 10);
     }
 
 
     @Override
     public void onNext(Tparam item) {
-        this.prefetchedQueue.add(item);
-        if (this.currentlyRunning < this.concurrency) {
-            var newItem = this.prefetchedQueue.poll();
-            this.currentlyRunning += 1;
-            runNewPublisher(newItem);
-            checkAndRequestFromUpper(1);
+        if (this.currentlyRunning.getAndIncrement() < this.concurrency) {
+            runNewPublisher(item);
         }
     }
 
-    private void checkAndRequestFromUpper(Integer count) {
-        if (this.downstreamRequested - count >= 0 ) {
-            this.downstreamRequested -= count;
-            this.upperSubscription.request(count);
+    private void checkAndRequestFromUpper() {
+        if (this.downstreamRequested.getAndIncrement() >= 1 ) {
+            this.upperSubscription.request(1);
         }
     }
 
@@ -60,22 +43,18 @@ public class MyFluxProxyFlatMap<Treturn,Tparam> extends MyFluxProxy<Treturn,Tpar
     }
 
     private void onInnerPublisherResult(Treturn res) {
-        this.currentlyRunning -= 1;
+        this.currentlyRunning.decrementAndGet();
         this.subscriber.onNext(res);
-        if (this.prefetchedQueue.size() > 0) {
-            runNewPublisher(this.prefetchedQueue.poll());
-        }
-        checkAndRequestFromUpper(1);
+        checkAndRequestFromUpper();
     }
 
     @Override
     public void onRequest(Integer count) {
-        if (this.prefetchedQueue.size() == 0) {
-            var toRquesteCount = count >= this.prefetch ? this.prefetch : count;
-            this.downstreamRequested += count;
-            this.upperSubscription.request(toRquesteCount);
+        if (this.currentlyRunning.get() == 0) {
+            this.downstreamRequested.set(count - this.concurrency);
+            this.upperSubscription.request(this.concurrency);
         } else {
-            this.downstreamRequested += count;
+            this.downstreamRequested.getAndAdd(count);
         }
     }
 

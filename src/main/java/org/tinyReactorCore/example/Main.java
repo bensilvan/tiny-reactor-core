@@ -18,7 +18,7 @@ public class Main {
                 .flatMap(x -> {
                     System.out.println("got into flatMap with: " + x);
                     return MyMono.fromFuture(delayAndGetValue(Duration.ofSeconds(x), x, scheduler));
-                },2,2).subscribe(x -> System.out.println("finish: " + x + " on thread: " + Thread.currentThread()));
+                },2).subscribe(x -> System.out.println("finish: " + x + " on thread: " + Thread.currentThread()));
 
     }
 
