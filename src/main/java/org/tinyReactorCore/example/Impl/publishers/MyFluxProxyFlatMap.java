@@ -5,6 +5,10 @@ import org.tinyReactorCore.example.Impl.InnerMonoSubscriber;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
+/*
+    currently flatMap only support myNono (publisher that publish only one item)
+    that is the reason it does not have prefetch yet.
+ */
 public class MyFluxProxyFlatMap<Treturn,Tparam> extends MyFluxProxy<Treturn,Tparam>{
     private final Function<Tparam,MyMono<Treturn>> publisherProducer;
     private final Integer concurrency;
