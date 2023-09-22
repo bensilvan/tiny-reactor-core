@@ -1,12 +1,12 @@
 package org.tinyReactorCore.example.Impl.publishers;
 
 public class MyMonoSimpleValue<T> extends MyMono<T>{
-    private T value;
+    private final T value;
     public MyMonoSimpleValue(T value) {
         this.value = value;
     }
     @Override
-    public void onRequest(Integer count) {
+    public void onRequest() {
         this.subscriber.onNext(this.value);
     }
 }

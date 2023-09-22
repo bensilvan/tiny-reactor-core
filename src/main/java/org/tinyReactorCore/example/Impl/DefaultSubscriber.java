@@ -3,10 +3,23 @@ package org.tinyReactorCore.example.Impl;
 import org.tinyReactorCore.example.specification.Subscriber;
 import org.tinyReactorCore.example.specification.Subscription;
 
+import java.util.function.Consumer;
+
 public class DefaultSubscriber<T> implements Subscriber<T> {
+
+    private final Consumer<T> callback;
+    public DefaultSubscriber() {
+        this.callback = null;
+    }
+    public DefaultSubscriber(Consumer<T> callback) {
+        this.callback = callback;
+    }
+
     @Override
     public void onNext(T item) {
-
+        if (this.callback != null) {
+            this.callback.accept(item);
+        }
     }
 
     @Override

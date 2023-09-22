@@ -3,18 +3,24 @@ package org.tinyReactorCore.example;
 import org.tinyReactorCore.example.Impl.publishers.MyFlux;
 import org.tinyReactorCore.example.Impl.publishers.MyMono;
 
-import java.util.List;
+import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
-    // TODO: implement a parallel flux or a way to process by parallel
-    // TODO: make sure that the publisher will not call onNext after it called onComplete
     public static void main(String[] args) {
-        MyFlux.just(List.of(1,2,3))
-                .flatMap(x -> {
-                    System.out.println("got into flatMap with: " + x);
-                    return MyMono.just(x);
-                },1,1)
-                .subscribe();
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(3);
+
+        MyMono.fromFuture(delayAndGetValue(Duration.ofSeconds(10), "hello", scheduler))
+                .subscribe(x -> System.out.println("got " + x + " on thread: " + Thread.currentThread()));
+    }
+
+    private static CompletableFuture<String> delayAndGetValue(Duration delayInSecond, String value, ScheduledExecutorService schedul) {
+        var future = new CompletableFuture<String>();
+        schedul.schedule(() -> future.complete(value), delayInSecond.toSeconds(), TimeUnit.SECONDS);
+
+        return future;
     }
 }
