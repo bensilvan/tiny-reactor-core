@@ -36,7 +36,7 @@ public class MyFluxProxyFlatMap<Treturn,Tparam> extends MyFluxProxy<Treturn,Tpar
     }
 
     private void checkAndRequestFromUpper() {
-        if (this.downstreamRequested.getAndIncrement() >= 1 ) {
+        if (this.downstreamRequested.getAndDecrement() >= 1 ) {
             this.upperSubscription.request(1);
         }
     }

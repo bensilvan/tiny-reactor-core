@@ -11,14 +11,15 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
-    public static void main(String[] args) {
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(3);
-
-        MyFlux.just(List.of(5,10,15))
-                .flatMap(x -> {
-                    System.out.println("got into flatMap with: " + x);
-                    return MyMono.delay(x, Duration.ofSeconds(x));
-                },2).subscribe(x -> System.out.println("finish: " + x + " on thread: " + Thread.currentThread()));
-
+    public static void main(String[] args){
+        MyFlux.just(List.of(1,2,3,4,5,6,7,8,9,10))
+                .flatMap(msg -> {
+                    System.out.println("call an async method for: " + msg + " on Thread: " + Thread.currentThread());
+                    return MyMono.delay(msg, Duration.ofSeconds(5)); // represent async code
+                }, 3) // concurrency set to 3
+                .subscribeOn(Executors.newSingleThreadExecutor())
+                .subscribe(msg -> {
+                  //  System.out.println("Finish processing " + msg + " on thread: " + Thread.currentThread());
+                });
     }
 }

@@ -1,8 +1,9 @@
 package org.tinyReactorCore.example.Impl.publishers;
 
+import org.tinyReactorCore.example.Impl.constans.Schedulers;
+
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -18,7 +19,7 @@ public class MyMonoDelay<T> extends MyMono<T>{
         this.scheduler = scheduler;
     }
     public MyMonoDelay(T value, Duration delay) {
-        this(value, delay, Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()));
+        this(value, delay, Schedulers.defaultScheduler());
     }
     @Override
     public void onRequest() {
