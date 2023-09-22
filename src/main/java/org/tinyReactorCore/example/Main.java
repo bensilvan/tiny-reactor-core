@@ -17,15 +17,8 @@ public class Main {
         MyFlux.just(List.of(5,10,15))
                 .flatMap(x -> {
                     System.out.println("got into flatMap with: " + x);
-                    return MyMono.fromFuture(delayAndGetValue(Duration.ofSeconds(x), x, scheduler));
+                    return MyMono.delay(x, Duration.ofSeconds(x));
                 },2).subscribe(x -> System.out.println("finish: " + x + " on thread: " + Thread.currentThread()));
 
-    }
-
-    private static CompletableFuture<Integer> delayAndGetValue(Duration delayInSecond, Integer value, ScheduledExecutorService schedul) {
-        var future = new CompletableFuture<Integer>();
-        schedul.schedule(() -> future.complete(value), delayInSecond.toSeconds(), TimeUnit.SECONDS);
-
-        return future;
     }
 }
