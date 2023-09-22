@@ -36,4 +36,9 @@ public class MyFluxProxyPublishOn<T> extends MyFluxProxy<T,T> implements Subscri
             this.subscriber.onComplete();
         });
     }
+
+    @Override
+    public void onRequest(Integer count) {
+        this.upperSubscription.request(count);
+    }
 }

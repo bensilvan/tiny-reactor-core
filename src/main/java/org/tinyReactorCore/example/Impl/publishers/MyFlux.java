@@ -47,6 +47,10 @@ public abstract class MyFlux<T> implements Publisher<T> {
         return new MyFluxProxyFlatMap<>(this, publisherProducer);
     }
 
+    public <Treturn> MyFluxProxyFlatMap<Treturn,T> concatMap(Function<T, MyMono<Treturn>> publisherProducer) {
+        return new MyFluxProxyFlatMap<>(this, publisherProducer, 1);
+    }
+
     public MyFluxProxyPublishOn<T> publishOn(ExecutorService executor) {
         return new MyFluxProxyPublishOn<>(this, executor);
     }
