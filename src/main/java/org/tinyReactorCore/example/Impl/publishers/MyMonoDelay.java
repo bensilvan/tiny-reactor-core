@@ -19,7 +19,7 @@ public class MyMonoDelay<T> extends MyMono<T>{
         this.scheduler = scheduler;
     }
     public MyMonoDelay(T value, Duration delay) {
-        this(value, delay, Schedulers.defaultScheduler());
+        this(value, delay, Schedulers.getDefaultScheduler());
     }
     @Override
     public void onRequest() {
