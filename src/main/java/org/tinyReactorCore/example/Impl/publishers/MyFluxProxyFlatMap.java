@@ -27,6 +27,15 @@ public class MyFluxProxyFlatMap<Treturn,Tparam> extends MyFluxProxy<Treturn,Tpar
         this.prefetchedQueue = new ArrayBlockingQueue<Tparam>(prefetch);
     }
 
+    public MyFluxProxyFlatMap(MyFlux<Tparam> actualPublisher, Function<Tparam, MyMono<Treturn>> producer, Integer concurrency) {
+        this(actualPublisher, producer, concurrency, 10);
+    }
+
+    public MyFluxProxyFlatMap(MyFlux<Tparam> actualPublisher, Function<Tparam, MyMono<Treturn>> producer) {
+        this(actualPublisher, producer, 10, 10);
+    }
+
+
     @Override
     public void onNext(Tparam item) {
         this.prefetchedQueue.add(item);
@@ -34,6 +43,14 @@ public class MyFluxProxyFlatMap<Treturn,Tparam> extends MyFluxProxy<Treturn,Tpar
             var newItem = this.prefetchedQueue.poll();
             this.currentlyRunning += 1;
             runNewPublisher(newItem);
+            checkAndRequestFromUpper(1);
+        }
+    }
+
+    private void checkAndRequestFromUpper(Integer count) {
+        if (this.downstreamRequested - count >= 0 ) {
+            this.downstreamRequested -= count;
+            this.upperSubscription.request(count);
         }
     }
 
@@ -48,11 +65,7 @@ public class MyFluxProxyFlatMap<Treturn,Tparam> extends MyFluxProxy<Treturn,Tpar
         if (this.prefetchedQueue.size() > 0) {
             runNewPublisher(this.prefetchedQueue.poll());
         }
-        if (this.downstreamRequested > 0) {
-            this.downstreamRequested -= 1;
-            this.upperSubscription.request(1);
-        }
-
+        checkAndRequestFromUpper(1);
     }
 
     @Override
