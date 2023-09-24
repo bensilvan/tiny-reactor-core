@@ -51,6 +51,10 @@ public abstract class MyFlux<T> implements Publisher<T> {
         return new MyFluxProxyFlatMap<>(this, publisherProducer, 1);
     }
 
+    public MyFluxSizedBuffer<T> buffer(Integer maxSize) {
+        return new MyFluxSizedBuffer<>(this, maxSize);
+    }
+
     public MyFluxProxyPublishOn<T> publishOn(ExecutorService executor) {
         return new MyFluxProxyPublishOn<>(this, executor);
     }
