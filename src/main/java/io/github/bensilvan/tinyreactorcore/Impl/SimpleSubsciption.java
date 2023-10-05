@@ -1,16 +1,21 @@
 package io.github.bensilvan.tinyreactorcore.Impl;
 
-import io.github.bensilvan.tinyreactorcore.specification.Subscription;
+import org.reactivestreams.Subscription;
 
 import java.util.function.Consumer;
 
 public class SimpleSubsciption implements Subscription {
-    private final Consumer<Integer> produce;
-    public SimpleSubsciption(Consumer<Integer> produce){
+    private final Consumer<Long> produce;
+    public SimpleSubsciption(Consumer<Long> produce){
         this.produce = produce;
     }
     @Override
-    public void request(Integer count) {
-        produce.accept(count);
+    public void request(long n) {
+        produce.accept(n);
+    }
+
+    @Override
+    public void cancel() {
+
     }
 }

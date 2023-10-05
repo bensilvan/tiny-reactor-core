@@ -1,7 +1,7 @@
 package io.github.bensilvan.tinyreactorcore.Impl;
 
-import io.github.bensilvan.tinyreactorcore.specification.Subscriber;
-import io.github.bensilvan.tinyreactorcore.specification.Subscription;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 
 import java.util.function.Consumer;
 
@@ -28,13 +28,13 @@ public class DefaultSubscriber<T> implements Subscriber<T> {
     }
 
     @Override
-    public void onError(Exception e) {
+    public void onError(Throwable e) {
 
     }
 
     @Override
-    public void onSubscribe(Subscription subscription) {
+    public void onSubscribe(Subscription s) {
         System.out.println("Run onSubscribe on: " + Thread.currentThread());
-        subscription.request(Integer.MAX_VALUE);
+        s.request(Long.MAX_VALUE);
     }
 }

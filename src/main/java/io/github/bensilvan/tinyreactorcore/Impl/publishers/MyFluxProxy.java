@@ -1,8 +1,8 @@
 package io.github.bensilvan.tinyreactorcore.Impl.publishers;
 
-import io.github.bensilvan.tinyreactorcore.specification.Subscriber;
 import io.github.bensilvan.tinyreactorcore.Impl.SimpleSubsciption;
-import io.github.bensilvan.tinyreactorcore.specification.Subscription;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 
 public abstract class MyFluxProxy<Treturn,Tparam> extends MyFlux<Treturn> implements Subscriber<Tparam> {
     private final MyFlux<Tparam> upperPublisher;
@@ -12,8 +12,8 @@ public abstract class MyFluxProxy<Treturn,Tparam> extends MyFlux<Treturn> implem
     }
 
     @Override
-    public void subscribe(Subscriber<Treturn> subscriber) {
-        this.subscriber = subscriber;
+    public void subscribe(Subscriber<? super Treturn> s) {
+        this.subscriber = s;
         if (this.subscribeExecutor == null) {
             this.upperPublisher.subscribe(this);
         } else {
@@ -22,7 +22,7 @@ public abstract class MyFluxProxy<Treturn,Tparam> extends MyFlux<Treturn> implem
     }
 
     @Override
-    public abstract void onRequest(Integer count);
+    public abstract void onRequest(Long count);
     @Override
     public void onSubscribe(Subscription subscription) {
         this.upperSubscription = subscription;

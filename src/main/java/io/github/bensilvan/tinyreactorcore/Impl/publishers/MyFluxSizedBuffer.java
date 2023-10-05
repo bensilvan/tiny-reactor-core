@@ -16,7 +16,7 @@ public class MyFluxSizedBuffer<T> extends MyFluxProxy<List<T>, T> {
     }
 
     @Override
-    public void onRequest(Integer count) {
+    public void onRequest(Long count) {
         this.upperSubscription.request(count * this.bufferMaxSize);
     }
 
@@ -36,7 +36,7 @@ public class MyFluxSizedBuffer<T> extends MyFluxProxy<List<T>, T> {
     }
 
     @Override
-    public void onError(Exception e) {
+    public void onError(Throwable e) {
 
     }
 }

@@ -1,6 +1,6 @@
 package io.github.bensilvan.tinyreactorcore.Impl;
 
-import io.github.bensilvan.tinyreactorcore.specification.Subscription;
+import org.reactivestreams.Subscription;
 
 public class SingleValueSubscription implements Subscription {
     private final Runnable producer;
@@ -11,10 +11,15 @@ public class SingleValueSubscription implements Subscription {
         this.producer = producer;
     }
     @Override
-    public void request(Integer count) {
+    public void request(long count) {
         if (!this.isCompleted) {
             this.producer.run();
             this.isCompleted = true;
         }
+    }
+
+    @Override
+    public void cancel() {
+
     }
 }

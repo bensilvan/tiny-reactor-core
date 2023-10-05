@@ -21,12 +21,12 @@ public class MyFluxProxyMap<Treturn, Tparam> extends MyFluxProxy<Treturn,Tparam>
     }
 
     @Override
-    public void onError(Exception e) {
+    public void onError(Throwable e) {
         this.subscriber.onError(e);
     }
 
     @Override
-    public void onRequest(Integer count) {
+    public void onRequest(Long count) {
         this.upperSubscription.request(count);
     }
 }

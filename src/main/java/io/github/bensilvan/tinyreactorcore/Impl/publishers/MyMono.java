@@ -2,8 +2,8 @@ package io.github.bensilvan.tinyreactorcore.Impl.publishers;
 
 import io.github.bensilvan.tinyreactorcore.Impl.DefaultSubscriber;
 import io.github.bensilvan.tinyreactorcore.Impl.SingleValueSubscription;
-import io.github.bensilvan.tinyreactorcore.specification.Subscriber;
-import io.github.bensilvan.tinyreactorcore.specification.Publisher;
+import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscriber;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
@@ -12,9 +12,9 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public abstract class MyMono<T> implements Publisher<T> {
-    protected Subscriber<T> subscriber;
+    protected Subscriber<? super T> subscriber;
     @Override
-    public void subscribe(Subscriber<T> subscriber) {
+    public void subscribe(Subscriber<? super T> subscriber) {
         this.subscriber = subscriber;
         this.subscriber.onSubscribe(new SingleValueSubscription(this::onRequest));
     }

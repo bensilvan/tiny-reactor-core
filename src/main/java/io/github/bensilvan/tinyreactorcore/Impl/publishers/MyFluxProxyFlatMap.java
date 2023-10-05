@@ -3,6 +3,7 @@ package io.github.bensilvan.tinyreactorcore.Impl.publishers;
 import io.github.bensilvan.tinyreactorcore.Impl.InnerMonoSubscriber;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 
 /*
@@ -13,13 +14,13 @@ public class MyFluxProxyFlatMap<Treturn,Tparam> extends MyFluxProxy<Treturn,Tpar
     private final Function<Tparam,MyMono<Treturn>> publisherProducer;
     private final Integer concurrency;
     private final AtomicInteger currentlyRunning;
-    private final AtomicInteger downstreamRequested;
+    private final AtomicLong downstreamRequested;
 
     public MyFluxProxyFlatMap(MyFlux<Tparam> actualPublisher, Function<Tparam, MyMono<Treturn>> producer, Integer concurrency) {
         super(actualPublisher);
         this.publisherProducer = producer;
         this.concurrency = concurrency;
-        this.downstreamRequested = new AtomicInteger(0);
+        this.downstreamRequested = new AtomicLong(0);
         this.currentlyRunning = new AtomicInteger(0);
     }
 
@@ -53,7 +54,7 @@ public class MyFluxProxyFlatMap<Treturn,Tparam> extends MyFluxProxy<Treturn,Tpar
     }
 
     @Override
-    public void onRequest(Integer count) {
+    public void onRequest(Long count) {
         if (this.currentlyRunning.get() == 0) {
             this.downstreamRequested.set(count - this.concurrency);
             this.upperSubscription.request(this.concurrency);
@@ -68,7 +69,7 @@ public class MyFluxProxyFlatMap<Treturn,Tparam> extends MyFluxProxy<Treturn,Tpar
     }
 
     @Override
-    public void onError(Exception e) {
+    public void onError(Throwable e) {
 
     }
 }

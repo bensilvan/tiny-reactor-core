@@ -1,6 +1,6 @@
 package io.github.bensilvan.tinyreactorcore.Impl.publishers;
 
-import io.github.bensilvan.tinyreactorcore.specification.Subscriber;
+import org.reactivestreams.Subscriber;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -24,7 +24,7 @@ public class MyFluxProxyPublishOn<T> extends MyFluxProxy<T,T> implements Subscri
     }
 
     @Override
-    public void onError(Exception e){
+    public void onError(Throwable e){
         this.executor.execute(() -> {
             this.subscriber.onError(e);
         });
@@ -38,7 +38,7 @@ public class MyFluxProxyPublishOn<T> extends MyFluxProxy<T,T> implements Subscri
     }
 
     @Override
-    public void onRequest(Integer count) {
+    public void onRequest(Long count) {
         this.upperSubscription.request(count);
     }
 }

@@ -1,7 +1,7 @@
 package io.github.bensilvan.tinyreactorcore.Impl;
 
-import io.github.bensilvan.tinyreactorcore.specification.Subscriber;
-import io.github.bensilvan.tinyreactorcore.specification.Subscription;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 
 import java.util.function.Consumer;
 
@@ -22,7 +22,7 @@ public class InnerMonoSubscriber<T> implements Subscriber<T> {
     }
 
     @Override
-    public void onError(Exception e) {
+    public void onError(Throwable e) {
 
     }
 

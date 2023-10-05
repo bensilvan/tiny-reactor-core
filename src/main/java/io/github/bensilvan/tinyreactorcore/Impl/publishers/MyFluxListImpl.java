@@ -12,7 +12,7 @@ public class MyFluxListImpl<T> extends MyFlux<T>{
         this.queue = queue;
     }
     @Override
-    public void onRequest(Integer count) {
+    public void onRequest(Long count) {
         if (this.queue.isEmpty()) {
             this.subscriber.onComplete();
         } else {

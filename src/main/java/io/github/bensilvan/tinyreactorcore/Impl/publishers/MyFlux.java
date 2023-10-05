@@ -1,9 +1,9 @@
 package io.github.bensilvan.tinyreactorcore.Impl.publishers;
 
 import io.github.bensilvan.tinyreactorcore.Impl.DefaultSubscriber;
-import io.github.bensilvan.tinyreactorcore.specification.Subscriber;
 import io.github.bensilvan.tinyreactorcore.Impl.SimpleSubsciption;
-import io.github.bensilvan.tinyreactorcore.specification.Publisher;
+import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscriber;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -11,12 +11,12 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public abstract class MyFlux<T> implements Publisher<T> {
-    protected Subscriber<T> subscriber;
+    protected Subscriber<? super T> subscriber;
     protected ExecutorService subscribeExecutor;
 
     @Override
-    public void subscribe(Subscriber<T> subscriber) {
-        this.subscriber = subscriber;
+    public void subscribe(Subscriber<? super T> s) {
+        this.subscriber = s;
         if (this.subscribeExecutor == null) {
             this.subscriber.onSubscribe(new SimpleSubsciption(this::onRequest));
         } else {
@@ -25,7 +25,7 @@ public abstract class MyFlux<T> implements Publisher<T> {
             });
         }
     }
-    public abstract void onRequest(Integer count);
+    public abstract void onRequest(Long count);
 
     public MyFlux<T> subscribeOn(ExecutorService executorService) {
         this.subscribeExecutor = executorService;
