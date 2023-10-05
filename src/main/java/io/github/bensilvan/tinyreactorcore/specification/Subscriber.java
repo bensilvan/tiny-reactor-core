@@ -1,4 +1,4 @@
-package org.tinyReactorCore.example.specification;
+package io.github.bensilvan.tinyreactorcore.specification;
 
 public interface Subscriber<T> {
      void onNext(T item);

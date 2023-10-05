@@ -1,4 +1,4 @@
-package org.tinyReactorCore.example.Impl.publishers;
+package io.github.bensilvan.tinyreactorcore.Impl.publishers;
 
 import java.util.concurrent.CompletableFuture;
 

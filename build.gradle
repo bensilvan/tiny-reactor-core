@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group 'org.tinyReactorCore.example'
+group 'io.github.bensilvan'
 version '1.0-SNAPSHOT'
 
 repositories {

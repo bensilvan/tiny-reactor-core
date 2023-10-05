@@ -1,7 +1,7 @@
-package org.tinyReactorCore.example.Impl;
+package io.github.bensilvan.tinyreactorcore.Impl;
 
-import org.tinyReactorCore.example.specification.Subscriber;
-import org.tinyReactorCore.example.specification.Subscription;
+import io.github.bensilvan.tinyreactorcore.specification.Subscriber;
+import io.github.bensilvan.tinyreactorcore.specification.Subscription;
 
 import java.util.function.Consumer;
 

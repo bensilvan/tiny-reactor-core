@@ -1,6 +1,6 @@
-package org.tinyReactorCore.example.Impl.publishers;
+package io.github.bensilvan.tinyreactorcore.Impl.publishers;
 
-import org.tinyReactorCore.example.specification.Subscriber;
+import io.github.bensilvan.tinyreactorcore.specification.Subscriber;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;

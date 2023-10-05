@@ -1,9 +1,8 @@
-package org.tinyReactorCore.example.Impl.publishers;
+package io.github.bensilvan.tinyreactorcore.Impl.publishers;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class MyFluxSizedBuffer<T> extends MyFluxProxy<List<T>, T> {
 

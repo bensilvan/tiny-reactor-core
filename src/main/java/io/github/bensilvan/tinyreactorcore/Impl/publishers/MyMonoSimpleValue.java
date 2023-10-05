@@ -1,4 +1,4 @@
-package org.tinyReactorCore.example.Impl.publishers;
+package io.github.bensilvan.tinyreactorcore.Impl.publishers;
 
 public class MyMonoSimpleValue<T> extends MyMono<T>{
     private final T value;

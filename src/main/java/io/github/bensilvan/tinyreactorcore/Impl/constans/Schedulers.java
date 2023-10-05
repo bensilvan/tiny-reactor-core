@@ -1,4 +1,4 @@
-package org.tinyReactorCore.example.Impl.constans;
+package io.github.bensilvan.tinyreactorcore.Impl.constans;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

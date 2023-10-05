@@ -1,8 +1,6 @@
-package org.tinyReactorCore.example.Impl;
+package io.github.bensilvan.tinyreactorcore.Impl;
 
-import org.tinyReactorCore.example.specification.Subscription;
-
-import java.util.function.Consumer;
+import io.github.bensilvan.tinyreactorcore.specification.Subscription;
 
 public class SingleValueSubscription implements Subscription {
     private final Runnable producer;

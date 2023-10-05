@@ -1,8 +1,8 @@
-package org.tinyReactorCore.example.Impl.publishers;
+package io.github.bensilvan.tinyreactorcore.Impl.publishers;
 
-import org.tinyReactorCore.example.Impl.SimpleSubsciption;
-import org.tinyReactorCore.example.specification.Publisher;
-import org.tinyReactorCore.example.specification.Subscriber;
+import io.github.bensilvan.tinyreactorcore.Impl.SimpleSubsciption;
+import io.github.bensilvan.tinyreactorcore.specification.Publisher;
+import io.github.bensilvan.tinyreactorcore.specification.Subscriber;
 
 import java.util.List;
 

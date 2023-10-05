@@ -1,6 +1,6 @@
-package org.tinyReactorCore.example.Impl.publishers;
+package io.github.bensilvan.tinyreactorcore.Impl.publishers;
 
-import org.tinyReactorCore.example.Impl.InnerMonoSubscriber;
+import io.github.bensilvan.tinyreactorcore.Impl.InnerMonoSubscriber;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;

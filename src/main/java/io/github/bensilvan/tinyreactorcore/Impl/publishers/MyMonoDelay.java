@@ -1,6 +1,6 @@
-package org.tinyReactorCore.example.Impl.publishers;
+package io.github.bensilvan.tinyreactorcore.Impl.publishers;
 
-import org.tinyReactorCore.example.Impl.constans.Schedulers;
+import io.github.bensilvan.tinyreactorcore.Impl.constans.Schedulers;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;

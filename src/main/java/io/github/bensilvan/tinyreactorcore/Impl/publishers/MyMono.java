@@ -1,9 +1,9 @@
-package org.tinyReactorCore.example.Impl.publishers;
+package io.github.bensilvan.tinyreactorcore.Impl.publishers;
 
-import org.tinyReactorCore.example.Impl.DefaultSubscriber;
-import org.tinyReactorCore.example.Impl.SingleValueSubscription;
-import org.tinyReactorCore.example.specification.Publisher;
-import org.tinyReactorCore.example.specification.Subscriber;
+import io.github.bensilvan.tinyreactorcore.Impl.DefaultSubscriber;
+import io.github.bensilvan.tinyreactorcore.Impl.SingleValueSubscription;
+import io.github.bensilvan.tinyreactorcore.specification.Subscriber;
+import io.github.bensilvan.tinyreactorcore.specification.Publisher;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;

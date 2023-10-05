@@ -1,8 +1,8 @@
-package org.tinyReactorCore.example;
+package io.github.bensilvan.tinyreactorcore;
 
-import org.tinyReactorCore.example.Impl.constans.Schedulers;
-import org.tinyReactorCore.example.Impl.publishers.MyFlux;
-import org.tinyReactorCore.example.Impl.publishers.MyMono;
+import io.github.bensilvan.tinyreactorcore.Impl.publishers.MyMono;
+import io.github.bensilvan.tinyreactorcore.Impl.constans.Schedulers;
+import io.github.bensilvan.tinyreactorcore.Impl.publishers.MyFlux;
 
 import java.time.Duration;
 import java.util.List;
@@ -13,7 +13,7 @@ public class Main {
         MyFlux.just(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
                 .publishOn(Schedulers.getWorkerPool())
                 .map(msg -> {
-                    System.out.println("running some heavy cpu operation on: " + msg + " on thread" + Thread.currentThread());
+                    System.out.println("running a heavy cpu operation on: " + msg + " on thread" + Thread.currentThread());
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException e) {

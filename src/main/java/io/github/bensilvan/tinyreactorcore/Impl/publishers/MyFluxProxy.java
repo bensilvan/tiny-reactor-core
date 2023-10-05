@@ -1,8 +1,8 @@
-package org.tinyReactorCore.example.Impl.publishers;
+package io.github.bensilvan.tinyreactorcore.Impl.publishers;
 
-import org.tinyReactorCore.example.Impl.SimpleSubsciption;
-import org.tinyReactorCore.example.specification.Subscriber;
-import org.tinyReactorCore.example.specification.Subscription;
+import io.github.bensilvan.tinyreactorcore.specification.Subscriber;
+import io.github.bensilvan.tinyreactorcore.Impl.SimpleSubsciption;
+import io.github.bensilvan.tinyreactorcore.specification.Subscription;
 
 public abstract class MyFluxProxy<Treturn,Tparam> extends MyFlux<Treturn> implements Subscriber<Tparam> {
     private final MyFlux<Tparam> upperPublisher;

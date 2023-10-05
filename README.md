@@ -48,9 +48,9 @@ git clone https://github.com/bensilvan/reactive-streams-example.git
 Here's a basic example to get you started:
 
 ```java
-import org.tinyReactorCore.example.Impl.constans.Schedulers;
-import org.tinyReactorCore.example.Impl.publishers.MyFlux;
-import org.tinyReactorCore.example.Impl.publishers.MyMono;
+import constans.Impl.io.github.bensilvan.tinyreactorcore.Schedulers;
+import publishers.Impl.io.github.bensilvan.tinyreactorcore.MyFlux;
+import publishers.Impl.io.github.bensilvan.tinyreactorcore.MyMono;
 
 import java.time.Duration;
 import java.util.List;
