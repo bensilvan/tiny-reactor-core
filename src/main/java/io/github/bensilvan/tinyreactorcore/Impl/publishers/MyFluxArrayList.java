@@ -33,8 +33,8 @@ public class MyFluxArrayList<T> extends MyFlux<T>{
                 this.subscriber.onNext(this.items.get(this.index.get()));
             }
 
-            this.requested.addAndGet(-count);
-            if (this.requested.get() == 0) {
+            var currentRequested = this.requested.addAndGet(-count);
+            if (currentRequested == 0) {
                 return;
             } else {
                 sent = 0;
