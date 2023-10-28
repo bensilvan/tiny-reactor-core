@@ -31,8 +31,8 @@ public abstract class MyFlux<T> implements Publisher<T> {
         this.subscribeExecutor = executorService;
         return this;
     }
-    public static <T> MyFluxListImpl<T> just(List<T> list) {
-        return new MyFluxListImpl<>(list);
+    public static <T> MyFluxArrayList<T> just(List<T> list) {
+        return new MyFluxArrayList<>(list);
     }
 
     public <Treturn> MyFluxProxyMap<Treturn,T> map (Function<T,Treturn> mapper) {
