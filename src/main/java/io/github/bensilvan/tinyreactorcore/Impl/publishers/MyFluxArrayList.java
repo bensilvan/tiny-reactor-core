@@ -36,9 +36,10 @@ public class MyFluxArrayList<T> extends MyFlux<T>{
             var currentRequested = this.requested.addAndGet(-count);
             if (currentRequested == 0) {
                 return;
-            } else {
-                sent = 0;
             }
+
+            sent = 0;
+            count = currentRequested 
         }
     }
 }
